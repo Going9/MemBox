@@ -43,12 +43,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const USER_ROLES = {
+    ADMIN: "ADMIN",
+    MANAGER: "MANAGER",
+    MEMBER: "MEMBER",
+    undefined: "undefined",
+  } as const;
   return (
     <>
-      <Navigation />
+      <Navigation isLoggedIn={true} role={USER_ROLES.ADMIN} hasNotifications={true} hasMessages={true} />
       <Outlet />
     </>
-  );  
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

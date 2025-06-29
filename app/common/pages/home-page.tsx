@@ -114,10 +114,10 @@ export default function HomePage({ loaderData, actionData }: Route.ComponentProp
                 }`}
                 onMouseEnter={() => setActiveFeature(index)}
               >
-                <div className={`w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6 transition-all duration-300 ${
+                <div className={`w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-6 transition-all duration-300 ${
                   isActive ? 'scale-110' : ''
                 }`}>
-                  <Icon className={`h-6 w-6 text-primary transition-all duration-300 ${
+                  <Icon className={`h-6 w-6 text-foreground transition-all duration-300 ${
                     isActive ? 'animate-pulse' : ''
                   }`} />
                 </div>

@@ -50,10 +50,10 @@ export default function App() {
     undefined: "undefined",
   } as const;
   return (
-    <>
+    <div className="py-28">
       <Navigation isLoggedIn={true} role={USER_ROLES.ADMIN} hasNotifications={true} hasMessages={true} />
       <Outlet />
-    </>
+    </div>
   );
 }
 

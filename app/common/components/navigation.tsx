@@ -102,8 +102,8 @@ const menus = [
         ]
     },
     {
-        name: "통계",
-        to: "/statistics",
+        name: "데이터 시각화",
+        to: "/visualizations",
     }
 ]
 
@@ -120,7 +120,7 @@ export default function Navigation({
       case USER_ROLES.MANAGER:
         return menu.name !== "직원관리";
       case USER_ROLES.MEMBER:
-        return menu.name === "통계";
+        return menu.name === "데이터 시각화";
       default:
         return false;
     }

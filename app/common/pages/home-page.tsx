@@ -1,9 +1,10 @@
-import type { Route } from "./+types/home-page";
+import { ArrowRightIcon, CheckIcon, StarIcon, TrendingUpIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 import type { MetaFunction } from "react-router";
 import { Button } from "~/common/components/ui/button";
 import { Separator } from "~/common/components/ui/separator";
-import { ArrowRightIcon, CheckIcon, StarIcon, TrendingUpIcon } from "lucide-react";
-import { useState, useEffect } from "react";
+import { FeatureCard } from "~/features/components/feature-card";
+import type { Route } from "./+types/home-page";
 
 export function loader({ request }: Route.LoaderArgs) {
   return {
@@ -24,34 +25,31 @@ export const meta: MetaFunction = () => {
 
 export default function HomePage({ loaderData, actionData }: Route.ComponentProps) {
   const [isVisible, setIsVisible] = useState(false);
-  const [activeFeature, setActiveFeature] = useState(0);
+  const [activeFeature, setActiveFeature] = useState(-1);
 
   useEffect(() => {
     setIsVisible(true);
-    
-    const interval = setInterval(() => {
-      setActiveFeature((prev) => (prev + 1) % 3);
-    }, 3000);
-
-    return () => clearInterval(interval);
   }, []);
 
   const features = [
     {
       icon: CheckIcon,
       title: "회원 데이터 통합 관리",
-      description: "체중, 골격근량 등 회원의 모든 데이터를 한눈에 확인하고 관리하세요. 차트와 그래프로 변화를 시각화합니다.",
+      description: "회원 일정, 출석, 식단 등 회원관리에 필요한 모든 데이터를 한눈에 확인하고 관리하세요.",
+      href: "/about/features/member-data-management",
     },
     {
       icon: StarIcon,
       title: "자동화된 메시지",
       description: "정해진 시간에 자동으로 메시지를 보내고, 회원의 변화에 맞춰 개인화된 피드백을 제공하세요.",
+      href: "/about/features/automated-messaging",
     },
     {
       icon: TrendingUpIcon,
       title: "성과 리포트",
-      description: "회원의 운동 성과를 그래프로 확인하고, 맞춤형 피드백을 제공하세요. PDF 리포트 생성도 가능합니다.",
-    }
+      description: "회원의 운동 성과를 그래프로 시각화 하고 당신의 포트폴리오를 만들어보세요",
+      href: "/about/features/performance-reports",
+    },
   ];
 
   const stats = [
@@ -65,18 +63,18 @@ export default function HomePage({ loaderData, actionData }: Route.ComponentProp
       {/* 히어로 섹션 */}
       <section className="container mx-auto px-4 py-20 text-center">
         <div className={`max-w-4xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h1 className="text-6xl font-bold mb-6 text-foreground">
+          <h1 className="text-6xl font-bold leading-tight tracking-tight mb-6 text-foreground">
             트레이너를 위한<br />
             스마트한 회원관리 솔루션
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-            카카오톡으로 흩어진 회원 데이터를 한곳에서 관리하세요.<br />
+            카카오톡, 노션 등으로 흩어진 회원 데이터를 한곳에서 관리하세요.<br />
             자동화된 메시지로 업무 시간을 절약하고, 회원의 성과를 데이터로 확인하세요.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button 
               size="lg" 
-              className="group transform transition-all duration-200 hover:scale-105 hover:shadow-lg"
+              className="bg-primary/90 group transform transition-all duration-200 hover:scale-105 hover:shadow-lg"
               onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}
             >
               무료로 시작하기
@@ -103,31 +101,17 @@ export default function HomePage({ loaderData, actionData }: Route.ComponentProp
           <p className="text-xl text-muted-foreground">트레이너의 업무를 효율적으로 만드는 핵심 기능들</p>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
-            const isActive = activeFeature === index;
-            return (
-              <div 
-                key={feature.title}
-                className={`group p-8 rounded-xl border bg-card hover:shadow-lg transition-all duration-500 cursor-pointer ${
-                  isActive ? 'ring-2 ring-primary/50 shadow-lg' : ''
-                }`}
-                onMouseEnter={() => setActiveFeature(index)}
-              >
-                <div className={`w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-6 transition-all duration-300 ${
-                  isActive ? 'scale-110' : ''
-                }`}>
-                  <Icon className={`h-6 w-6 text-foreground transition-all duration-300 ${
-                    isActive ? 'animate-pulse' : ''
-                  }`} />
-                </div>
-                <h3 className="text-xl font-semibold mb-4 text-foreground">{feature.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {feature.description}
-                </p>
-              </div>
-            );
-          })}
+          {features.map((feature, index) => (
+            <FeatureCard
+              key={feature.title}
+              icon={feature.icon}
+              title={feature.title}
+              description={feature.description}
+              isActive={activeFeature === index}
+              onMouseEnter={() => setActiveFeature(index)}
+              href={feature.href}
+            />
+          ))}
         </div>
       </section>
 
@@ -142,7 +126,7 @@ export default function HomePage({ loaderData, actionData }: Route.ComponentProp
                 className="group cursor-pointer"
                 style={{ animationDelay: `${index * 200}ms` }}
               >
-                <div className="text-4xl font-bold text-primary mb-2 transition-all duration-300 group-hover:scale-110">
+                <div className="text-4xl font-bold text-primary/80 mb-2 transition-all duration-300 group-hover:scale-110 group-hover:text-primary">
                   {stat.value}
                 </div>
                 <p className="text-muted-foreground">{stat.label}</p>
@@ -162,7 +146,7 @@ export default function HomePage({ loaderData, actionData }: Route.ComponentProp
           </p>
           <Button 
             size="lg" 
-            className="group transform transition-all duration-200 hover:scale-105 hover:shadow-xl animate-bounce"
+            className="bg-primary/90 group transform transition-all duration-200 hover:scale-105 hover:shadow-xl animate-bounce"
           >
             무료 체험 시작하기
             <ArrowRightIcon className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />

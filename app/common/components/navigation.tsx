@@ -24,38 +24,38 @@ interface NavigationProps {
 const menus = [
     {
         name: "회원관리",
-        to: "/members",
+        to: "/management/members",
         items: [
             {
                 name: "일정",
                 description: "일정을 확인하세요!",
-                to: "/members/schedules",
+                to: "/management/members/schedules",
             },
             {
                 name: "출석 현황",
                 description: "출석 현황을 확인하세요!",
-                to: "/members/attendances", 
+                to: "/management/members/attendances", 
             },
             {
                 name: "식단 현황",
                 description: "식단 현황을 확인하세요!",
-                to: "/members/menus",
+                to: "/management/members/menus",
             },
         ]
     },
     {
         name: "직원관리",
-        to: "/employees",
+        to: "/management/employees",
         items: [
             {
                 name: "출근 현황",
                 description: "출근 현황을 확인하세요!",
-                to: "/employees/attendances",
+                to: "/management/employees/attendances",
             },
             {
                 name: "직원 담당 회원",
                 description: "직원이 담당하는 회원을 확인하세요!",
-                to: "/employees/members",
+                to: "/management/employees/members",
             }
         ]
     },
@@ -66,12 +66,12 @@ const menus = [
             {
                 name: "메세지 자동화",
                 description: "메세지를 자동으로 보내세요!",
-                to: "/automations/messages",
+                to: "/automations/messages/templates",
             },
             {
                 name: "메세지 템플릿 관리",
                 description: "메세지 템플릿을 관리하세요!",
-                to: "/messages/templates",
+                to: "/automations/messages",
             },
         ]
     },
